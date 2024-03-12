@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body,input{
+            display: flex;
+            gap: 50px;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        input{
+            margin-bottom:20px;
+        }
+       
+    </style>
+</head>
+<form action="">
+    <input type="text" id="city" placeholder="enter city name">
+    <input type="submit"  id="sub">
+</form>
+<h1></h1>
+<div>
+    
+</div>
+
+    <!-- <img src="./Images/winter1.gif" alt=""> -->
+<body>
+    <script>
+    
+        // console.log(val);
+        let f= document.forms;
+        f[0].addEventListener("submit",function(e){
+            e.preventDefault();
+            var api = "https://api.openweathermap.org/data/2.5/weather?q=city&appid=3ce3009181b48f7a80dc529e5d0b1cf9";
+            var api2= api.replace("city",e.target[0].value);
+            console.log(api2);
+            fetch(api2,{method:"get"}).then((val)=>{
+                return val.json()}).then( (val)=>{
+                    console.log(val);
+                    let d= document.getElementsByTagName("div");
+                    let h1= document.getElementsByTagName("h1");
+                    let city = val["name"];
+                    temparature = parseInt((val["main"]["temp"])-273.15);
+                    if(temparature>=25 && temparature<=50){
+                        d[0].style.backgroundImage="url('./Images/summer.gif')";
+                        d[0].style.backgroundSize= "cover";
+                        d[0].style.width= "200px";
+                        d[0].style.height= "200px";
+                        h1[0].innerHTML="CITY: "+city+" "+temparature+"<sup>0</sup>C";
+                    }
+                    else if(temparature>=10 && temparature<=20){
+                        d[0].style.backgroundImage="url('./Images/winter1.gif')";
+                        d[0].style.backgroundSize= "cover";
+                        d[0].style.width= "200px";
+                        d[0].style.height= "200px";
+                        h1[0].innerHTML="CITY: "+city+" "+temparature+"<sup>0</sup>C";
+                    }
+                    else{
+                        d[0].style.backgroundImage="url('./Images/winter2.gif')";
+                        d[0].style.backgroundSize= "cover";
+                        d[0].style.width= "200px";
+                        d[0].style.height= "200px";
+                        h1[0].innerHTML="CITY: "+city+" "+temparature+"<sup>0</sup>C";
+                    }
+                    e.target[0].value=""
+                  
+                    
+                })
+                
+        })
+        
+        
+    
+    </script>
+</body>
+</html>
